@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>账本城 · 单文件阅读版</title>
+<style>
+  :root{--ink:#31383f;--accent:#5d7183;--bg:#f7f5f0;--panel:#efece5;--line:#ddd6c8;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Georgia,"Songti SC","SimSun",serif;color:var(--ink);background:var(--bg)}
+  header{position:sticky;top:0;background:var(--panel);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;z-index:5}
+  header h1{font-size:18px;margin:0;letter-spacing:.2em}
+  #search{flex:1;min-width:200px;padding:7px 12px;border:1px solid var(--line);border-radius:6px;font-size:14px;background:#fff}
+  #hits{position:absolute;top:52px;right:16px;background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);max-height:280px;overflow:auto;width:300px;display:none;z-index:9}
+  #hits div{padding:8px 12px;cursor:pointer;font-size:14px;border-bottom:1px solid #f0ece2}
+  #hits div:hover{background:var(--panel)}
+  #hits b{color:var(--accent)}
+  #hits .cat{float:right;color:#9aa0a6;font-size:12px}
+  .wrap{display:flex;max-width:1100px;margin:0 auto}
+  nav{width:230px;flex-shrink:0;padding:18px 10px;border-right:1px solid var(--line)}
+  nav button{display:block;width:100%;text-align:left;padding:10px 14px;margin:4px 0;border:none;background:none;font-size:15px;cursor:pointer;border-radius:6px;font-family:inherit;color:var(--ink)}
+  nav button.active{background:var(--accent);color:#fff}
+  nav button:hover:not(.active){background:#e7e2d6}
+  main{flex:1;padding:26px 34px;max-width:820px}
+  .pane{display:none}.pane.active{display:block}
+  .pane h2{letter-spacing:.15em;border-bottom:2px solid var(--accent);padding-bottom:8px}
+  .pane h3{color:var(--accent);margin-top:28px}
+  .pane p{line-height:1.9;font-size:16.5px;margin:10px 0}
+  .pane table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px;background:#fff}
+  .pane th,.pane td{border:1px solid var(--line);padding:7px 10px;text-align:left}
+  .pane th{background:var(--panel)}
+  mark{background:#ffe9a8;padding:0 2px;border-radius:3px}
+  .cover-img{max-width:420px;display:block;margin:0 auto;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+  .cover-fallback{width:420px;height:630px;margin:0 auto;position:relative;overflow:hidden;background:#cfd9e2;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+  .cover-fallback .t{position:absolute;top:100px;width:100%;text-align:center;font-size:52px;letter-spacing:.3em;color:#3a4652}
+  .cover-fallback .led{position:absolute;left:46px;right:46px;bottom:40px;height:260px;background:#f2ecdd;border:1px solid #d3c8ab}
+  .cover-fallback .pd{position:absolute;left:50%;top:220px;width:3px;height:120px;background:#5d7183;transform-origin:top;transform:rotate(24deg)}
+  .cover-fallback .sh{position:absolute;left:170px;top:350px;width:220px;height:8px;background:linear-gradient(90deg,rgba(93,113,131,.45),transparent);transform:rotate(9deg)}
+  .cover-fallback .n{position:absolute;bottom:8px;width:100%;text-align:center;font-size:11px;color:#8a94a0}
+  footer{color:#9aa0a6;text-align:center;padding:30px;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <h1>账本城</h1>
+  <input id="search" type="search" placeholder="检索人物 / 地点 / 道具 / 术语……" autocomplete="off">
+</header>
+<div id="hits"></div>
+<div class="wrap">
+  <nav id="toc"></nav>
+  <main id="content"></main>
+</div>
+<footer>《账本城》· AI 参与创作 · 课堂虚构世界观 · 单文件阅读版（零外部依赖）</footer>
+<script>
+const CHAPTERS = [{"id": "ch1", "title": "第一章 · 揭走的条目（周一）", "html": "<h3>一 · 东街</h3>\n<p>周一清晨，东街的长桌刚擦过，木纹里还留着水痕。沈砚把新的一页铺平，压上铜尺。他负责给公共账册换页，这是他的活，一排长桌，一册账本，换起来不多不少。</p>\n<p>纸角翘了一下，又落回去。</p>\n<p>他昨天的条目不见了。</p>\n<p>不是划掉的。划掉会留下两道墨线。纸面很平，像有人把那一格轻轻揭走了。他伸手摸了摸，纸是凉的。</p>\n<p>「换页了？」对面的人问。</p>\n<p>「换页了。」他说，「昨天的条目不见了。」</p>\n<p>对面的人没有接话，把笔收进布套。长桌另一头，有人放下笔，笔杆碰到桌面，声音顺着水痕滑到尽头。</p>\n<p>沈砚挪开铜尺。纸角下面压着小半张旧纸，边缘毛糙，是从别人的账册上撕下来的。他把纸捏起来，对着窗光看。上面只有半个字：桉。</p>\n<p>桌子底下还躺着一样东西。他弯腰去捡，是一枚铜钥匙，柄上刻着一道细槽，槽里积着墨。他认得这种钥匙——寄存处的小窗后面挂着一排这样的钥匙，只在周五傍晚露面。</p>\n<p>今天不是周五。</p>\n<p>他把旧纸折了两折，和钥匙一起收进袖口，先把新的一页写完。这一条，他写的是「今日无事」。</p>\n<p>钟楼那边没有声音。按理说，这个时辰也不该有声音。</p>\n<h3>二 · 钟楼街</h3>\n<p>钟楼街安静，地面有钟摆投下的长影。影子比昨天长了一寸。</p>\n<p>钟叔在檐下擦门环，旧铜色外套，手套没有摘。</p>\n<p>「昨天的条目被人揭走了。」沈砚说。</p>\n<p>钟叔擦门环的手停了停。「账册的事，找纸街。」</p>\n<p>「我在东街捡到一枚钥匙。」沈砚把袖口松开一角，「寄存处的样子。」</p>\n<p>钟叔没有看钥匙。他把手套拽了拽，继续擦。「东西掉在地上，就是地上的东西。」</p>\n<p>「钟停那年，你在哪里捡的它？」</p>\n<p>檐下静了一会儿。远处有人收桌，木板相碰，一声，又一声。</p>\n<p>「周五再来。」钟叔说，「周五之前，别把钥匙给人看。」</p>\n<p>沈砚把袖口拢好。他转身时，听见钟叔在背后补了半句：「也别给自己惹条目。」</p>\n<h3>三 · 纸街</h3>\n<p>纸街的墙上是层层旧纸，最旧的一层已经黄透。阿桉在案前整理条目，浅色围裙，手指有纸痕，动作很慢，慢得像故意让每个人都看清她没有藏东西。</p>\n<p>「我捡到半张纸。」沈砚把袖口的东西放在案角，「上面半个字，桉。」</p>\n<p>阿桉看着那张纸，把他的话重复了一遍：「捡到，半张纸。」她才慢慢抬头，「从哪里捡的。」</p>\n<p>「东街，我的账册页脚。」</p>\n<p>「不是我的。」阿桉说。</p>\n<p>「字是你的姓。」</p>\n<p>「姓是我的。」她把旧纸推回来，慢，但稳，「字不一定是。」</p>\n<p>案上的薄纸卷被她不动声色地挪近了自己。沈砚看见卷纸边缘露出一线折痕，和袖口那半张的毛边很像。他没有伸手。</p>\n<p>「周五我会去寄存处。」他说。</p>\n<p>「我也去。」阿桉低下头，继续整理，「去把一条该说的话，说完。」</p>\n<p>沈砚离开纸街时，日头偏西。他在心里数了三下，把今天要说的话又过了一遍。袖口里，钥匙贴着旧纸，凉的。</p>\n<p>钟楼那边，还是没有声音。</p>\n<h3>状态登记（第一章末 · 周一黄昏）</h3>\n<table><thead><tr><th>项目</th><th>状态</th></tr></thead><tbody><tr><td>沈砚</td><td>纸街→东街途中；袖口藏铜钥匙、半张「桉」字旧纸；当日条目「今日无事」已写</td></tr><tr><td>阿桉</td><td>纸街案前；随身薄纸卷（内疑藏另外半张旧纸）；未承认纸的来历</td></tr><tr><td>钟叔</td><td>钟楼街檐下；未触碰钥匙；约定周五再谈</td></tr><tr><td>小满</td><td>未出场</td></tr><tr><td>道具</td><td>铜钥匙在沈砚袖口；半张旧纸在沈砚袖口；铜尺在东街长桌上</td></tr><tr><td>时间</td><td>周一黄昏；钟未响</td></tr></tbody></table>\n<p>（本章正文 869 汉字，对话 25 处）</p>\n<hr>"}, {"id": "ch2", "title": "第二章 · 排队的人（周二至周四）", "html": "<h3>一 · 纸街（周二下午）</h3>\n<p>周二下午，抄写员开始整理上周的条目。纸街的案子上摞起一叠叠旧纸，按街名分堆：东街一叠，钟楼街一叠，剩下的归入「其他」。</p>\n<p>沈砚把袖口那半张纸放在案上。「帮我认认，是哪一年的纸。」</p>\n<p>阿桉接过纸，对着窗光看了很久。「纸是三年前的。撕口是新的。」</p>\n<p>「撕口是新的？」</p>\n<p>「纸放了三年，撕口不会这么白。」她把纸放回案上，「撕下来不超过七天。」</p>\n<p>「谁撕的？」</p>\n<p>阿桉没有回答。她从围裙里取出自己的薄纸卷，解开，里面果然还有半张——另外半张，断口对得上。两个半个字拼在一起：桉。</p>\n<p>「这条是我自己划掉的。」她说，「三年前，写在钟楼街。」</p>\n<p>「写的什么？」</p>\n<p>「去钟楼街，问钟为什么停。」她把纸卷好，收回围裙，「问出口之前，我把它划掉了。」</p>\n<p>「划掉的条目，能在别人的账册里重新抄一次。」沈砚说，「只有一次。」</p>\n<p>「我知道。」阿桉点头，「所以这三年，我一直在找一册靠得住的账本。」</p>\n<p>沈砚沉默了一会儿。「你找的不是账本。」</p>\n<p>「你说得对。」她抬起眼，「我找的是肯替我抄的人。」</p>\n<h3>二 · 钟楼街（周三上午）</h3>\n<p>周三上午，钟楼被人擦拭了一遍，钟没有响。沈砚到的时候，钟叔正从梯子上下来，手里是一块干布。</p>\n<p>「每年擦一次。」钟叔说，「擦的是灰，不是钟。」</p>\n<p>「钟什么时候响过？」</p>\n<p>「有人把不可撤回的选择存出去的那天。」钟叔把布搭在梯子横档上，「响一次，记一次。」</p>\n<p>「上一次响是什么时候？」</p>\n<p>钟叔看了他一眼。那眼神很慢，像在数什么东西。「三十年前。」</p>\n<p>「那年发生了什么？」</p>\n<p>「那年，有人在寄存处存了一枚钥匙。」钟叔的手在手套里蜷了一下，「存东西的人说，等钥匙回来，钟就响。」</p>\n<p>沈砚的袖口沉了沉。钥匙柄上那道积墨的细槽，此刻像一条缝了三十年的口子。</p>\n<p>「钥匙现在在哪里？」他问。</p>\n<p>「在捡到它的人袖口里。」钟叔说。</p>\n<p>檐下又静了。钟摆的长影横在两人脚边，一动不动。</p>\n<p>「周五。」沈砚说。</p>\n<p>「周五。」钟叔点头，「把它交还给该收的人。」</p>\n<h3>三 · 寄存处门外（周四傍晚）</h3>\n<p>周四傍晚，寄存处门口第一次排起队。木门锁着，小窗开着一条缝，里面亮着一盏小灯。</p>\n<p>小满坐在窗后，短发，布包放在膝上，正低头往登记簿上写字。队伍走得很慢，每个人在小窗前说一句话，她记一笔，画一道线。</p>\n<p>轮到沈砚时，她抬头看了看他。</p>\n<p>「你不在队里。」她说，「排队的人，是来寄存的。」</p>\n<p>「我是来还东西的。」沈砚把钥匙放在窗台上。</p>\n<p>小满盯着那枚钥匙，把登记簿合上了。「这是寄存处的钥匙。」</p>\n<p>「我知道。」</p>\n<p>「它不该在外面过夜。」她说得很快，不像平时登记时的句子，「三十年了，我只在册子上见过它。」</p>\n<p>队尾传来脚步声。钟叔站在队末，旧铜色外套，手套没有摘。阿桉站在他后面，浅色围裙洗得发白。</p>\n<p>「人都齐了。」钟叔说。</p>\n<p>小满看了看册子，又看了看窗台上的钥匙，声音低下去：「明天傍晚，我提前半个时辰开窗。」</p>\n<p>「我们四个都到。」沈砚说。</p>\n<p>小满把钥匙用一块方布包好，放进布包，又把登记簿翻开新的一页，笔尖悬着，没有落下去。</p>\n<p>「这一笔怎么记？」她问。</p>\n<p>「记：钥匙回来了。」钟叔在队尾说。</p>\n<h3>状态登记（第二章末 · 周四夜）</h3>\n<table><thead><tr><th>项目</th><th>状态</th></tr></thead><tbody><tr><td>沈砚</td><td>寄存处门外；袖口仅剩半张旧纸，钥匙已交小满；今日条目未写</td></tr><tr><td>阿桉</td><td>寄存处门外；围裙内薄纸卷（另有半张旧纸）；周五要「抄回一条」</td></tr><tr><td>钟叔</td><td>寄存处门外队尾；透露三十年前有人存入钥匙</td></tr><tr><td>小满</td><td>寄存处小窗后；布包内收着包好的铜钥匙；登记簿新页未落笔</td></tr><tr><td>道具</td><td>铜钥匙在小满布包；半张旧纸一张在沈砚袖口、另一张在阿桉围裙；铜尺在东街</td></tr><tr><td>时间</td><td>周四夜；钟未响；明晚提前开窗</td></tr></tbody></table>\n<p>（本章正文 929 汉字，对话 46 处）</p>\n<hr>"}, {"id": "ch3", "title": "第三章 · 钟响的那一笔（周五）", "html": "<h3>一 · 小窗（周五傍晚）</h3>\n<p>周五傍晚，天还没黑透，寄存处的小窗就开了。小满把登记簿铺在窗台上，方布包摆在手边，灯芯挑亮了一截。</p>\n<p>四个人到齐。沈砚、阿桉站在台阶下，钟叔站在队尾原本站的位置，像还排着三十年前的那一班。</p>\n<p>「按规矩来。」小满翻开登记簿，「寄存的，说寄什么。取回的，说凭据。」</p>\n<p>「都不是。」钟叔往前一步，「我今天，来划一笔。」</p>\n<p>小满的笔停住了。「划掉的条目，无法恢复。」她说，「划掉之前，你可以说三遍。」</p>\n<p>「我说了三十年。」钟叔说，「不用再说第三遍。」</p>\n<p>他把左手手套摘下来。那只手背上有一道旧疤，像撕口一样白。他把右手按在窗台上，声音不高：</p>\n<p>「三十年前，我在这里存下一枚钥匙。我说，等钥匙回来，钟就响。今天我把这一条划掉——钥匙不取了。」</p>\n<p>窗台上一静。远处东街有人收桌，木板相碰，一声。</p>\n<h3>二 · 门前台阶</h3>\n<p>小满低头找那一条。登记簿最旧的一册里，那一行字已经淡了：钥匙一枚，存入者：钟楼街。附言一行小字：等钥匙回来，钟就响。</p>\n<p>她取红笔，沿着那一行，划了两道线。</p>\n<p>「划掉。」她说，然后抬头，「钟叔，你现在可以后悔。」</p>\n<p>「不后悔。」</p>\n<p>「好。」小满在旁边记了新的一行，「这一笔，记：寄存条目划掉，钥匙归寄存处。」</p>\n<p>沈砚从袖口取出那半张旧纸。阿桉也解开薄纸卷，取出另外半张。两个人把纸拼在台阶上，断口对齐，整行字迹露出来——</p>\n<p>去钟楼街，问钟为什么停。</p>\n<p>「就是这条。」阿桉说，「三年前，我划掉的。」</p>\n<p>「划掉的条目，」沈砚说，「可以在别人的账册里重新抄写一次。」</p>\n<p>他向小满借了笔，翻开自己的账册，把那一行一字一字抄了进去。抄完最后一笔，他停了停。</p>\n<p>「这条以后在我账册里。」他说，「你想问的时候，随时可以来读。」</p>\n<p>阿桉看着那行字，看了很久，才点头：「好。」</p>\n<p>她把拼合的旧纸收进围裙，纸边朝里，像收一条抄完了的账。</p>\n<h3>三 · 旧钟楼下</h3>\n<p>四个人一起走到旧钟楼下。影子横在地上，比谁都长。</p>\n<p>钟叔仰头看那只停了三十年的钟。指针停在某个位置，没人知道是谁停的。</p>\n<p>「钟叔，」小满忽然问，「当年你存钥匙，替的是谁？」</p>\n<p>「替我自己。」他说，「那年我有一句该说的话，没说出口。我把话换成了钥匙。」</p>\n<p>「现在说出口了吗？」</p>\n<p>「说了。」钟叔把手套重新戴上，「刚才，在窗台上。」</p>\n<p>沈砚在心里数了三下。他忽然明白那句话是什么——不是「不取了」。是三十年前没说的那一句，今天当众补上的那一句。</p>\n<p>钟响了一次。</p>\n<p>只有一声。声音很低，从很高的地方落下来，落在三条街上，像一页纸被轻轻压平。</p>\n<p>没有人说话。阿桉把围裙的带子系紧了些；小满把登记簿抱在怀里；钟叔摘下手套，又戴上。</p>\n<p>「记一笔。」小满终于开口，声音有点抖，「周五傍晚，钟响一次。」</p>\n<p>「这条谁写？」阿桉问。</p>\n<p>「你们都可以。」小满说，「每人每天，一条。」</p>\n<h3>状态登记（第三章末 · 周五夜）</h3>\n<table><thead><tr><th>项目</th><th>状态</th></tr></thead><tbody><tr><td>沈砚</td><td>旧钟楼下；账册内新抄入阿桉的条目（H4 唯一一次）；旧纸拼合后交阿桉收存</td></tr><tr><td>阿桉</td><td>旧钟楼下；持有拼合完整的旧纸；三年前划掉的条目已在沈砚账册中抄回</td></tr><tr><td>钟叔</td><td>旧钟楼下；三十年前的寄存条目已划掉，钥匙归寄存处；做出了不可撤回的选择</td></tr><tr><td>小满</td><td>寄存处小窗后→旧钟楼下；铜钥匙归寄存处；登记簿新增两笔（划掉一笔、记钟响一笔）</td></tr><tr><td>道具</td><td>铜钥匙归寄存处；旧纸拼合由阿桉收存；铜尺在东街长桌上；登记簿在小满布包</td></tr><tr><td>时间</td><td>周五夜；钟响过一次；本周条目将随周六清晨入档</td></tr></tbody></table>\n<p>（本章正文 856 汉字，对话 34 处）</p>"}, {"id": "appendix", "title": "设定附录", "html": "<h1>09 · 设定附录</h1>\n<p>&gt; <b>说明</b>：本附录从正文（<code>06_正文_三章.md</code>）抽取整理，仅供阅读时快速查阅；如与 <code>01_世界观设定集.md</code> 存在差异，<b>以设定集为准</b>。</p>\n<h2>一、人物</h2>\n<table><thead><tr><th>名称</th><th>首次出场</th><th>简介</th><th>关联</th></tr></thead><tbody><tr><td>沈砚</td><td>第 1 章</td><td>东街记录员，负责给公共账册换页；捡到铜钥匙与半张旧纸</td><td>阿桉、钟叔、小满、铜钥匙、半张旧纸、铜尺</td></tr><tr><td>阿桉</td><td>第 1 章</td><td>纸街抄写员；三年前划掉了「去钟楼街，问钟为什么停」这条</td><td>沈砚、薄纸卷、半张旧纸</td></tr><tr><td>钟叔</td><td>第 1 章</td><td>旧钟楼看守；三十年前把一句没说出口的话换成了钥匙存进寄存处</td><td>小满、铜钥匙、旧钟楼</td></tr><tr><td>小满</td><td>第 2 章</td><td>寄存处学徒，只在周五出现；登记簿上从来只有别人的条目</td><td>沈砚、钟叔、铜钥匙、登记簿</td></tr></tbody></table>\n<h2>二、地点</h2>\n<table><thead><tr><th>名称</th><th>首次出场</th><th>简介</th><th>关联</th></tr></thead><tbody><tr><td>东街</td><td>第 1 章</td><td>长桌连成一排，人们在这里写条目</td><td>沈砚、铜尺、公共账册</td></tr><tr><td>纸街</td><td>第 1 章</td><td>抄写员聚集，墙上是层层旧纸</td><td>阿桉、抄写员</td></tr><tr><td>钟楼街</td><td>第 1 章</td><td>安静，地面有钟摆投下的长影</td><td>钟叔、旧钟楼</td></tr><tr><td>寄存处</td><td>第 1 章</td><td>木门、小窗，只在周五傍晚开放</td><td>小满、铜钥匙、登记簿</td></tr><tr><td>旧钟楼</td><td>第 3 章</td><td>指针停在某个位置，无人知道是谁停的</td><td>钟叔、钟摆</td></tr></tbody></table>\n<h2>三、道具</h2>\n<table><thead><tr><th>名称</th><th>首次出场</th><th>简介</th><th>关联</th></tr></thead><tbody><tr><td>铜钥匙</td><td>第 1 章</td><td>柄上刻着积墨的细槽；三十年前由钟叔存入寄存处，第 3 章归寄存处</td><td>沈砚、钟叔、小满、寄存处</td></tr><tr><td>半张旧纸</td><td>第 1 章</td><td>写着半个「桉」字的撕页；两半拼合后是阿桉被划掉的条目</td><td>沈砚、阿桉、薄纸卷</td></tr><tr><td>铜尺</td><td>第 1 章</td><td>沈砚换页压纸角用的铜器，始终在东街长桌上</td><td>沈砚、东街</td></tr><tr><td>薄纸卷</td><td>第 1 章</td><td>阿桉围裙里的卷纸，藏着另外半张旧纸</td><td>阿桉、半张旧纸</td></tr><tr><td>登记簿</td><td>第 2 章</td><td>小满在寄存处小窗使用的册子，记着三十年来的每一笔</td><td>小满、寄存处</td></tr></tbody></table>\n<h2>四、术语</h2>\n<table><thead><tr><th>名称</th><th>首次出场</th><th>释义</th><th>关联</th></tr></thead><tbody><tr><td>条目</td><td>第 1 章</td><td>写进账册的一笔选择，写下须划掉另一条</td><td>公共账册、划掉</td></tr><tr><td>公共账册</td><td>第 1 章</td><td>全城共用的账本，周一清晨换新页</td><td>沈砚、东街</td></tr><tr><td>划掉</td><td>第 1 章</td><td>让一条条目作废的动作，会留下两道墨线</td><td>条目、阿桉、钟叔</td></tr><tr><td>抄写员</td><td>第 2 章</td><td>纸街上整理与抄录条目的人</td><td>阿桉、纸街</td></tr><tr><td>寄存</td><td>第 1 章</td><td>把东西连同约定一起存入寄存处</td><td>寄存处、铜钥匙</td></tr><tr><td>不可撤回的选择</td><td>第 2 章</td><td>一旦说出或写下便无法反悔；钟只在此刻敲响</td><td>钟叔、旧钟楼</td></tr><tr><td>钟摆</td><td>第 1 章</td><td>静止的钟摆，在地面投下长影</td><td>钟楼街、旧钟楼</td></tr></tbody></table>\n<h2>五、与设定集的差异说明</h2>\n<p>- 正文未描写寄存处内部结构、钟楼指针的具体停留位置，均为设定集「待补充」项，与正文一致。</p>\n<p>- 正文新增的细节（钥匙柄的积墨细槽、钟叔手背的旧疤）属人物外观描写，不构成新规则。</p>\n<p>- 三章时间跨度为周一清晨至周五夜，完全落在设定集时间线的周一—周五区间内。</p>"}];
+const INDEX = {"meta": {"title": "账本城 · 人物与术语索引", "source": "06_正文_三章.md", "note": "只收录正文真实出现的名称；同名不同义已拆分；related 均指向本 items 列表内的 name", "generated": "2026-11-16"}, "items": [{"name": "沈砚", "category": "人物", "first_chapter": 1, "gloss": "东街记录员，负责给公共账册换页", "related": ["阿桉", "钟叔", "小满", "铜钥匙", "半张旧纸", "铜尺", "公共账册"]}, {"name": "阿桉", "category": "人物", "first_chapter": 1, "gloss": "纸街抄写员，三年前划掉了自己的条目", "related": ["沈砚", "薄纸卷", "半张旧纸", "条目", "抄写员"]}, {"name": "钟叔", "category": "人物", "first_chapter": 1, "gloss": "旧钟楼看守，三十年前存入铜钥匙的人", "related": ["沈砚", "小满", "铜钥匙", "旧钟楼", "不可撤回的选择"]}, {"name": "小满", "category": "人物", "first_chapter": 2, "gloss": "寄存处学徒，只在周五开小窗登记", "related": ["沈砚", "钟叔", "登记簿", "铜钥匙", "寄存处"]}, {"name": "东街", "category": "地点", "first_chapter": 1, "gloss": "长桌连成一排，人们在这里写条目", "related": ["沈砚", "铜尺", "公共账册", "条目"]}, {"name": "纸街", "category": "地点", "first_chapter": 1, "gloss": "抄写员聚集，墙上是层层旧纸", "related": ["阿桉", "抄写员", "条目"]}, {"name": "钟楼街", "category": "地点", "first_chapter": 1, "gloss": "安静，地面有钟摆投下的长影", "related": ["钟叔", "旧钟楼", "钟摆"]}, {"name": "寄存处", "category": "地点", "first_chapter": 1, "gloss": "木门小窗，只在周五开放的寄存之所", "related": ["小满", "铜钥匙", "登记簿", "寄存"]}, {"name": "旧钟楼", "category": "地点", "first_chapter": 3, "gloss": "指针停住的钟楼，无人知道是谁停的", "related": ["钟叔", "钟摆", "不可撤回的选择"]}, {"name": "铜钥匙", "category": "道具", "first_chapter": 1, "gloss": "柄上有积墨细槽，三十年前存入寄存处", "related": ["沈砚", "钟叔", "小满", "寄存处"]}, {"name": "半张旧纸", "category": "道具", "first_chapter": 1, "gloss": "写着半个「桉」字的撕页，断口可拼合", "related": ["沈砚", "阿桉", "薄纸卷", "条目"]}, {"name": "铜尺", "category": "道具", "first_chapter": 1, "gloss": "沈砚换页时压平纸角的铜器", "related": ["沈砚", "东街", "公共账册"]}, {"name": "薄纸卷", "category": "道具", "first_chapter": 1, "gloss": "阿桉围裙里的卷纸，藏着另半张旧纸", "related": ["阿桉", "半张旧纸"]}, {"name": "登记簿", "category": "道具", "first_chapter": 2, "gloss": "小满在寄存处小窗使用的册子", "related": ["小满", "寄存处", "条目"]}, {"name": "条目", "category": "术语", "first_chapter": 1, "gloss": "写进账册的一笔选择，可被划掉", "related": ["公共账册", "划掉", "抄写员", "登记簿"]}, {"name": "公共账册", "category": "术语", "first_chapter": 1, "gloss": "全城共用的账本，每天换新的一页", "related": ["沈砚", "东街", "条目"]}, {"name": "划掉", "category": "术语", "first_chapter": 1, "gloss": "让一条条目作废的动作，留两道墨线", "related": ["条目", "阿桉", "钟叔", "登记簿"]}, {"name": "抄写员", "category": "术语", "first_chapter": 2, "gloss": "纸街上整理与抄录条目的人", "related": ["阿桉", "纸街", "条目"]}, {"name": "寄存", "category": "术语", "first_chapter": 1, "gloss": "把东西连同约定一起存入寄存处", "related": ["寄存处", "小满", "铜钥匙"]}, {"name": "不可撤回的选择", "category": "术语", "first_chapter": 2, "gloss": "一旦说出或写下便无法反悔的选择", "related": ["钟叔", "旧钟楼", "寄存"]}, {"name": "钟摆", "category": "术语", "first_chapter": 1, "gloss": "静止的钟摆，在地面投下长影", "related": ["钟楼街", "旧钟楼"]}]};
+const CSS_COVER = "<div class=\"cover\">\n    <div class=\"streets\">\n      <svg viewBox=\"0 0 600 180\" width=\"100%\" height=\"100%\" preserveAspectRatio=\"none\">\n        <g fill=\"none\" stroke=\"#7f93a6\" stroke-width=\"2\" opacity=\".8\">\n          <rect x=\"40\"  y=\"90\"  width=\"90\" height=\"70\"/><rect x=\"150\" y=\"70\"  width=\"60\" height=\"90\"/>\n          <rect x=\"240\" y=\"100\" width=\"110\" height=\"60\"/><rect x=\"380\" y=\"60\"  width=\"50\" height=\"100\"/>\n          <rect x=\"450\" y=\"85\"  width=\"100\" height=\"75\"/>\n        </g>\n        <g fill=\"#9db0c0\" opacity=\".35\">\n          <rect x=\"40\" y=\"90\" width=\"90\" height=\"70\"/><rect x=\"240\" y=\"100\" width=\"110\" height=\"60\"/>\n        </g>\n      </svg>\n    </div>\n    <div class=\"title\">账本城</div>\n    <div class=\"subtitle\">每一次选择，都记进公共账册</div>\n    <div class=\"pendulum\"></div><div class=\"bob\"></div><div class=\"shadow\"></div>\n    <div class=\"ledger\">\n      <div class=\"line\" style=\"top:60px\"></div><div class=\"line\" style=\"top:120px\"></div>\n      <div class=\"line\" style=\"top:180px\"></div><div class=\"line\" style=\"top:240px\"></div>\n    </div>\n    <div class=\"note\">纯 CSS/SVG 封面 · 构图：下半账册 + 斜长阴影 + 上方留白标题（图像生成未启用）</div>\n  </div>\n</body>";
+
+const toc = document.getElementById('toc'), content = document.getElementById('content');
+const panes = [];
+// 封面页（优先图片，缺图回退 CSS）
+const coverPane = document.createElement('section');
+coverPane.className = 'pane'; coverPane.id = 'cover';
+coverPane.innerHTML = '<img src="10_封面.png" alt="封面" class="cover-img" onerror="this.style.display=\'none\';document.getElementById(\'cover-fb\').style.display=\'block\'">'
+  + '<div id="cover-fb" class="cover-fallback" style="display:none"><div class="t">账本城</div><div class="pd"></div><div class="sh"></div>'
+  + '<div class="led"></div><div class="n">图像生成未启用 · CSS 构图封面</div></div>';
+content.appendChild(coverPane); panes.push(coverPane);
+CHAPTERS.forEach((c, idx) => {
+  const s = document.createElement('section');
+  s.className = 'pane'; s.id = c.id; s.dataset.idx = idx;
+  s.innerHTML = c.html;
+  content.appendChild(s); panes.push(s);
+});
+function show(i){
+  panes.forEach((p, j) => p.classList.toggle('active', i === j));
+  btns.forEach((b, j) => b.classList.toggle('active', i === j));
+  window.scrollTo(0, 0);
+  clearMarks();
+}
+const btns = [];
+['封面'].concat(CHAPTERS.map(c => c.title)).forEach((t, i) => {
+  const b = document.createElement('button');
+  b.textContent = t;
+  b.onclick = () => show(i);
+  toc.appendChild(b); btns.push(b);
+});
+show(0);
+
+// ---- 索引检索：输入过滤条目，点击高亮并跳转 ----
+const input = document.getElementById('search'), hits = document.getElementById('hits');
+function clearMarks(){ document.querySelectorAll('mark').forEach(m => { const t = m.textContent; m.replaceWith(t); }); }
+input.addEventListener('input', () => {
+  const q = input.value.trim().toLowerCase();
+  if (!q) { hits.style.display = 'none'; return; }
+  const list = INDEX.items.filter(it => it.name.toLowerCase().includes(q) || it.gloss.toLowerCase().includes(q));
+  hits.innerHTML = '';
+  if (!list.length) { hits.innerHTML = '<div>无匹配条目</div>'; hits.style.display = 'block'; return; }
+  list.forEach(it => {
+    const d = document.createElement('div');
+    d.innerHTML = '<b>' + it.name + '</b><span class="cat">' + it.category + ' · 第' + it.first_chapter + '章</span><br>' + it.gloss;
+    d.onclick = () => { jump(it.name); };
+    hits.appendChild(d);
+  });
+  hits.style.display = 'block';
+});
+function jump(name){
+  hits.style.display = 'none';
+  clearMarks();
+  // 优先在当前章节找，找不到则跳到首次出现的章节
+  const cur = panes.findIndex(p => p.classList.contains('active'));
+  const order = [cur].concat(panes.map((_, i) => i).filter(i => i !== cur));
+  for (const i of order) {
+    const pane = panes[i];
+    const walker = document.createTreeWalker(pane, NodeFilter.SHOW_TEXT);
+    let node;
+    while ((node = walker.nextNode())) {
+      const pos = node.textContent.indexOf(name);
+      if (pos >= 0) {
+        show(i);
+        requestAnimationFrame(() => {
+          const after = node.splitText(pos);
+          after.splitText(name.length);
+          const mark = document.createElement('mark');
+          mark.textContent = name;
+          node.parentNode.replaceChild(mark, after);
+          mark.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+        return;
+      }
+    }
+  }
+}
+document.addEventListener('click', e => { if (!hits.contains(e.target) && e.target !== input) hits.style.display = 'none'; });
+</script>
+</body>
+</html>

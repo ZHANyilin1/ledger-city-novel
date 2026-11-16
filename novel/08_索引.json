@@ -1,0 +1,157 @@
+{
+  "meta": {
+    "title": "账本城 · 人物与术语索引",
+    "source": "06_正文_三章.md",
+    "note": "只收录正文真实出现的名称；同名不同义已拆分；related 均指向本 items 列表内的 name",
+    "generated": "2026-11-16"
+  },
+  "items": [
+    {
+      "name": "沈砚",
+      "category": "人物",
+      "first_chapter": 1,
+      "gloss": "东街记录员，负责给公共账册换页",
+      "related": ["阿桉", "钟叔", "小满", "铜钥匙", "半张旧纸", "铜尺", "公共账册"]
+    },
+    {
+      "name": "阿桉",
+      "category": "人物",
+      "first_chapter": 1,
+      "gloss": "纸街抄写员，三年前划掉了自己的条目",
+      "related": ["沈砚", "薄纸卷", "半张旧纸", "条目", "抄写员"]
+    },
+    {
+      "name": "钟叔",
+      "category": "人物",
+      "first_chapter": 1,
+      "gloss": "旧钟楼看守，三十年前存入铜钥匙的人",
+      "related": ["沈砚", "小满", "铜钥匙", "旧钟楼", "不可撤回的选择"]
+    },
+    {
+      "name": "小满",
+      "category": "人物",
+      "first_chapter": 2,
+      "gloss": "寄存处学徒，只在周五开小窗登记",
+      "related": ["沈砚", "钟叔", "登记簿", "铜钥匙", "寄存处"]
+    },
+    {
+      "name": "东街",
+      "category": "地点",
+      "first_chapter": 1,
+      "gloss": "长桌连成一排，人们在这里写条目",
+      "related": ["沈砚", "铜尺", "公共账册", "条目"]
+    },
+    {
+      "name": "纸街",
+      "category": "地点",
+      "first_chapter": 1,
+      "gloss": "抄写员聚集，墙上是层层旧纸",
+      "related": ["阿桉", "抄写员", "条目"]
+    },
+    {
+      "name": "钟楼街",
+      "category": "地点",
+      "first_chapter": 1,
+      "gloss": "安静，地面有钟摆投下的长影",
+      "related": ["钟叔", "旧钟楼", "钟摆"]
+    },
+    {
+      "name": "寄存处",
+      "category": "地点",
+      "first_chapter": 1,
+      "gloss": "木门小窗，只在周五开放的寄存之所",
+      "related": ["小满", "铜钥匙", "登记簿", "寄存"]
+    },
+    {
+      "name": "旧钟楼",
+      "category": "地点",
+      "first_chapter": 3,
+      "gloss": "指针停住的钟楼，无人知道是谁停的",
+      "related": ["钟叔", "钟摆", "不可撤回的选择"]
+    },
+    {
+      "name": "铜钥匙",
+      "category": "道具",
+      "first_chapter": 1,
+      "gloss": "柄上有积墨细槽，三十年前存入寄存处",
+      "related": ["沈砚", "钟叔", "小满", "寄存处"]
+    },
+    {
+      "name": "半张旧纸",
+      "category": "道具",
+      "first_chapter": 1,
+      "gloss": "写着半个「桉」字的撕页，断口可拼合",
+      "related": ["沈砚", "阿桉", "薄纸卷", "条目"]
+    },
+    {
+      "name": "铜尺",
+      "category": "道具",
+      "first_chapter": 1,
+      "gloss": "沈砚换页时压平纸角的铜器",
+      "related": ["沈砚", "东街", "公共账册"]
+    },
+    {
+      "name": "薄纸卷",
+      "category": "道具",
+      "first_chapter": 1,
+      "gloss": "阿桉围裙里的卷纸，藏着另半张旧纸",
+      "related": ["阿桉", "半张旧纸"]
+    },
+    {
+      "name": "登记簿",
+      "category": "道具",
+      "first_chapter": 2,
+      "gloss": "小满在寄存处小窗使用的册子",
+      "related": ["小满", "寄存处", "条目"]
+    },
+    {
+      "name": "条目",
+      "category": "术语",
+      "first_chapter": 1,
+      "gloss": "写进账册的一笔选择，可被划掉",
+      "related": ["公共账册", "划掉", "抄写员", "登记簿"]
+    },
+    {
+      "name": "公共账册",
+      "category": "术语",
+      "first_chapter": 1,
+      "gloss": "全城共用的账本，每天换新的一页",
+      "related": ["沈砚", "东街", "条目"]
+    },
+    {
+      "name": "划掉",
+      "category": "术语",
+      "first_chapter": 1,
+      "gloss": "让一条条目作废的动作，留两道墨线",
+      "related": ["条目", "阿桉", "钟叔", "登记簿"]
+    },
+    {
+      "name": "抄写员",
+      "category": "术语",
+      "first_chapter": 2,
+      "gloss": "纸街上整理与抄录条目的人",
+      "related": ["阿桉", "纸街", "条目"]
+    },
+    {
+      "name": "寄存",
+      "category": "术语",
+      "first_chapter": 1,
+      "gloss": "把东西连同约定一起存入寄存处",
+      "related": ["寄存处", "小满", "铜钥匙"]
+    },
+    {
+      "name": "不可撤回的选择",
+      "category": "术语",
+      "first_chapter": 2,
+      "gloss": "一旦说出或写下便无法反悔的选择",
+      "related": ["钟叔", "旧钟楼", "寄存"]
+    },
+    {
+      "name": "钟摆",
+      "category": "术语",
+      "first_chapter": 1,
+      "gloss": "静止的钟摆，在地面投下长影",
+      "related": ["钟楼街", "旧钟楼"]
+    }
+  ]
+}
